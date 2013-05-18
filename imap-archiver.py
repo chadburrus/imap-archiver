@@ -7,8 +7,17 @@ import sys
 import time
 import keyring
 import yaml
+import argparse
 
-year = int(sys.argv[1])
+parser = argparse.ArgumentParser(description='Archive some email.')
+parser.add_argument(
+	'year',
+	type=int,
+	help='The year to run the archive on.'
+)
+args = parser.parse_args()
+
+year = args.year
 
 parameters = None
 

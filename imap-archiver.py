@@ -34,11 +34,13 @@ try:
 		parameters = yaml.safe_load(parameter_file)
 
 except IOError:
-	print "\n\tThe '%s' file does not exist.  Copy the 'parameters.yaml.dist' file to '%s' and configure it appropriately.\n" % (parameter_file_name, parameter_file_name)
+	print "\nERROR:  The '%s' file does not exist.  Copy the 'parameters.yaml.dist' file to '%s' and configure it appropriately.\n" % (parameter_file_name, parameter_file_name)
+	parser.print_help()
 	sys.exit()
 
 if parameters is None:
-	print "\n\tNo parameters could be read from the 'parameters.yaml' file.  Have you updated it with your configuration?\n"
+	print "\nERROR:  No parameters could be read from the 'parameters.yaml' file.  Have you updated it with your configuration?\n"
+	parser.print_help()
 	sys.exit()
 
 password = keyring.get_password(

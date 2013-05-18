@@ -1,0 +1,8 @@
+# The email address to login with
+email  : your.email@gmail.com
+
+# The IMAP server to login to
+server : imap.gmail.com
+
+# Your Archive folder -- Defaults to Gmail's All Mail folder, since that's what I use
+folder : "[Gmail]/All Mail"

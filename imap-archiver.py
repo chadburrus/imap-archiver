@@ -77,7 +77,7 @@ uid_count = len(uids)
 # find the messages to tuck away and where they should be tucked
 for index, uid in enumerate(uids):
 
-	result, data = mail.uid('fetch', uid, '(RFC822)')
+	result, data = mail.uid('fetch', uid, '(RFC822.HEADER)')
 	raw_email = data[0][1]
 
 	message = email.message_from_string(raw_email)

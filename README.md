@@ -1,8 +1,8 @@
-# Introduction
+### Introduction
 
-A basic email archival tool for use over IMAP.  It organizes email into folders based on the year and date of the email.  I run it from a cron job nightly to keep my archive up to date.
+A basic email archival tool for use over IMAP.  It organizes email into folders based on the year and month of the email.  I run it from a cron job nightly to keep my archive organized.
 
-# Assumptions
+### Assumptions
 
 This was written and tested against Gmail's IMAP implementation, and has some inherent assumptions based on that implementation.  For example:
 
@@ -12,15 +12,15 @@ This was written and tested against Gmail's IMAP implementation, and has some in
 4. Creating a folder multiple times on the IMAP server does *NOT* produce any ill side affects.
 5. Your user name and password are stored in some form of keychain or keyring supported by Python's [`keyring`](https://pypi.python.org/pypi/keyring) module.
 
-# Dependencies
+### Dependencies
 
-Python and the `email` and `keyring` modules are the only real dependencies.  Make sure they're installed, and you should be good to go
+Python and the `email` and `keyring` modules are the only real dependencies.  Make sure they're installed, and you should be good to go.
 
     pip install email keyring
 
-# Todo
+### Todo
 
-1.  Add usage information.
-2.  Better documentation.
+1. Add usage information.
+2. Better documentation.
 3. Clean up option passing.
 4. Better error handling.

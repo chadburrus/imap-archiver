@@ -24,3 +24,4 @@ Python and the `email` and `keyring` modules are the only real dependencies.  Ma
 2. Better documentation.
 3. Clean up option passing.
 4. Better error handling.
+5. Performance enchancements, especially in the initial "find all messages" phase.

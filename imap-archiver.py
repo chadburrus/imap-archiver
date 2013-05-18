@@ -84,22 +84,32 @@ for index, uid in enumerate(uids):
 	date_string = message['Date']
 	date = email.utils.parsedate(date_string)
 
-	year = date[0]
-	date_folder = "%s/%02d - %s" % (date[0], date[1], time.strftime('%B', date))
+	# ok, there's no Date header--try faking one from the Received
+	if date is None:
+		date = email.utils.parsedate(message['Received'].split(";")[1])
 
-	# so Gmail nests things properly, store the email in both the year and month-specific label
-	try:
-		year_hash[year].append(uid)
-	except KeyError:
-		year_hash[year] = [uid]
+	if date is not None:
+		year = date[0]
+		date_folder = "%s/%02d - %s" % (date[0], date[1], time.strftime('%B', date))
 
-	try:
-		year_hash[date_folder].append(uid)
-	except KeyError:
-		year_hash[date_folder] = [uid]
-	
-	if index != 0 and index % 100 == 0:
-		print "Processed the %s message of %s..." % (index, uid_count)
+		# so Gmail nests things properly, store the email in both the year and month-specific label
+		try:
+			year_hash[year].append(uid)
+		except KeyError:
+			year_hash[year] = [uid]
+
+		try:
+			year_hash[date_folder].append(uid)
+		except KeyError:
+			year_hash[date_folder] = [uid]
+
+		if index != 0 and index % 100 == 0:
+			print "Processed the %s message of %s..." % (index, uid_count)
+	else:
+		print "Unparsable date string: '%s'" % date_string
+		print message
+		sys.exit()
+
 
 # copy the messages to the appropriate folders in bulk
 for label, uids in year_hash.items():

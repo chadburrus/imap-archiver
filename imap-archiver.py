@@ -15,17 +15,26 @@ parser.add_argument(
 	type=int,
 	help='The year to run the archive on.'
 )
+parser.add_argument(
+	'--parameter_file',
+	type=str,
+	default="parameters.yaml",
+	help='The file containing the configured parameters. Defaults to "parameters.yaml".'
+)
 args = parser.parse_args()
 
 year = args.year
+month = args.month
+parameter_file_name = args.parameter_file
 
 parameters = None
 
 try:
-	with open("parameters.yaml") as parameter_file:
+	with open(parameter_file_name) as parameter_file:
 		parameters = yaml.safe_load(parameter_file)
+
 except IOError:
-	print "\n\tThe 'parameters.yaml' file does not exist.  Copy the 'parameters.yaml.dist' file to 'parameters.yaml' and configure it appropriately.\n"
+	print "\n\tThe '%s' file does not exist.  Copy the 'parameters.yaml.dist' file to '%s' and configure it appropriately.\n" % (parameter_file_name, parameter_file_name)
 	sys.exit()
 
 if parameters is None:

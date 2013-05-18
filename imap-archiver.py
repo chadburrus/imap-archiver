@@ -16,6 +16,12 @@ parser.add_argument(
 	help='The year to run the archive on.'
 )
 parser.add_argument(
+	'--month',
+	type=int,
+	default="13",
+	help='The month to run the archive on. Optional, defaults to all months.'
+)
+parser.add_argument(
 	'--parameter_file',
 	type=str,
 	default="parameters.yaml",
@@ -55,6 +61,12 @@ mail.select(parameters['folder'])
 
 date = (datetime.date(year, 1, 1) - datetime.timedelta(1)).strftime("%d-%b-%Y")
 to_date = (datetime.date(year + 1, 1, 1) - datetime.timedelta(1)).strftime("%d-%b-%Y")
+if month < 13:
+	date = (datetime.date(year, month, 1) - datetime.timedelta(1)).strftime("%d-%b-%Y")
+	to_date = (datetime.date(year, month + 1, 2) - datetime.timedelta(1)).strftime("%d-%b-%Y")
+
+
+print '(SINCE {date} BEFORE {to_date})'.format(date=date, to_date=to_date)
 result, data = mail.uid('search', None, '(SINCE {date} BEFORE {to_date})'.format(date=date, to_date=to_date))
 
 uids = data[0].split()

@@ -11,11 +11,17 @@ import yaml
 year = int(sys.argv[1])
 
 parameters = None
-with open("parameters.yaml") as parameter_file:
-	parameters = yaml.safe_load(parameter_file)
+
+try:
+	with open("parameters.yaml") as parameter_file:
+		parameters = yaml.safe_load(parameter_file)
+except IOError:
+	print "\n\tThe 'parameters.yaml' file does not exist.  Copy the 'parameters.yaml.dist' file to 'parameters.yaml' and configure it appropriately.\n"
+	sys.exit()
 
 if parameters is None:
-	sys.exit("No Parameters!")
+	print "\n\tNo parameters could be read from the 'parameters.yaml' file.  Have you updated it with your configuration?\n"
+	sys.exit()
 
 password = keyring.get_password(
 	parameters['server'],

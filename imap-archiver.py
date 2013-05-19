@@ -63,7 +63,10 @@ date = (datetime.date(year, 1, 1) - datetime.timedelta(1)).strftime("%d-%b-%Y")
 to_date = (datetime.date(year + 1, 1, 1) - datetime.timedelta(1)).strftime("%d-%b-%Y")
 if month < 13:
 	date = (datetime.date(year, month, 1) - datetime.timedelta(1)).strftime("%d-%b-%Y")
-	to_date = (datetime.date(year, month + 1, 2) - datetime.timedelta(1)).strftime("%d-%b-%Y")
+	if month != 12:
+		to_date = (datetime.date(year, month + 1, 2) - datetime.timedelta(1)).strftime("%d-%b-%Y")
+	else:
+		to_date = (datetime.date(year + 1, 1, 2) - datetime.timedelta(1)).strftime("%d-%b-%Y")
 
 
 print '(SINCE {date} BEFORE {to_date})'.format(date=date, to_date=to_date)

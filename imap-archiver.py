@@ -88,8 +88,18 @@ for index, uid in enumerate(uids):
 	date = email.utils.parsedate(date_string)
 
 	# ok, there's no Date header--try faking one from the Received
-	if date is None:
+	if date is None and message.has_key('Received') and message['Received'] is not None:
 		date = email.utils.parsedate(message['Received'].split(";")[1])
+
+	# ok, something wasn't parsed right.  Try it manually.
+	if date is None:
+		lines = raw_email.split("\n")
+		for line in lines:
+			if line.startswith("Date:"):
+				# so I *do* have a Date header--nice!
+				date = email.utils.parsedate(line.split(": ")[1])
+				if date is not None:
+					break
 
 	if date is not None:
 		year = date[0]

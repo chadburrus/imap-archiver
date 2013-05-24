@@ -22,7 +22,7 @@ parser.add_argument(
 	help='The month to run the archive on. Optional, defaults to all months.'
 )
 parser.add_argument(
-	'--parameter_file',
+	'--parameter-file',
 	type=str,
 	default="parameters.yaml",
 	help='The file containing the configured parameters. Defaults to "parameters.yaml".'

@@ -10,16 +10,13 @@ import yaml
 import argparse
 
 parser = argparse.ArgumentParser(description='Archive some email.')
+# @todo add the default days to process to the config file
+# @todo add shortcuts for the last 30 and 365 days
 parser.add_argument(
-	'year',
+	'--days-to-process',
 	type=int,
-	help='The year to run the archive on.'
-)
-parser.add_argument(
-	'--month',
-	type=int,
-	default="13",
-	help='The month to run the archive on. Optional, defaults to all months.'
+	default="1",
+	help='Archive the last X days worth of mail.  Defaults to 1.'
 )
 parser.add_argument(
 	'--parameter-file',
@@ -29,8 +26,7 @@ parser.add_argument(
 )
 args = parser.parse_args()
 
-year = args.year
-month = args.month
+days_to_process = args.days_to_process
 parameter_file_name = args.parameter_file
 
 parameters = None
@@ -59,18 +55,10 @@ mail.login(parameters['email'], password)
 
 mail.select(parameters['folder'])
 
-date = (datetime.date(year, 1, 1) - datetime.timedelta(1)).strftime("%d-%b-%Y")
-to_date = (datetime.date(year + 1, 1, 1) - datetime.timedelta(1)).strftime("%d-%b-%Y")
-if month < 13:
-	date = (datetime.date(year, month, 1) - datetime.timedelta(1)).strftime("%d-%b-%Y")
-	if month != 12:
-		to_date = (datetime.date(year, month + 1, 2) - datetime.timedelta(1)).strftime("%d-%b-%Y")
-	else:
-		to_date = (datetime.date(year + 1, 1, 2) - datetime.timedelta(1)).strftime("%d-%b-%Y")
+from_date = (datetime.date.today() - datetime.timedelta(days_to_process)).strftime("%d-%b-%Y")
+to_date = (datetime.date.today()).strftime("%d-%b-%Y")
 
-
-print '(SINCE {date} BEFORE {to_date})'.format(date=date, to_date=to_date)
-result, data = mail.uid('search', None, '(SINCE {date} BEFORE {to_date})'.format(date=date, to_date=to_date))
+result, data = mail.uid('search', None, '(SINCE {from_date} BEFORE {to_date})'.format(from_date=from_date, to_date=to_date))
 
 uids = data[0].split()
 
